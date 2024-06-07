@@ -4,3 +4,9 @@
 - Web Scraping
 - Data Analysis & Manipulation
 - Visualzation of Data
+
+NLTK Vader Sentiment
+- Trained on online articles
+
+Puporse:
+- To apply sentiment analysis
