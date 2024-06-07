@@ -48,8 +48,8 @@ for ticker, news in news_tables.items():
         all_parsed_data.append([ticker, date, time, headlines])
         all_parsed_data_links.append([headline_link])
 
-# print(all_parsed_data)
-print(all_parsed_data_links)
+print(all_parsed_data)
+# print(all_parsed_data_links)
     
     # To Get the Link of Headline
     # print(row.findAll('td')[1].a['href'])
