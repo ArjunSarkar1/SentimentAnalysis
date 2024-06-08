@@ -5,6 +5,27 @@ from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Float, Date, Time
+
+my_engine = create_engine('sqlite:///my_news.db')
+my_base = declarative_base()
+
+class MyNews(my_base):
+    __tablename__ = 'News_Headlines'
+
+    id = Column(Integer, primary_key=True)
+    date = Column(Date)
+    time = Column(Time)
+    ticker = Column(String)
+    headlines = Column(String)
+    sentimentScore = Column(Float)
+
+Session = sessionmaker(bind=my_engine)
+sesh = Session()
+
 # Base URL and ticker symbols
 finviz_url = "https://finviz.com/quote.ashx?t="
 ticker_symbols = ['IBM', 'ACN', 'ADBE', 'UBER']
@@ -61,8 +82,21 @@ vader = SentimentIntensityAnalyzer()
 function = lambda headlines: vader.polarity_scores(headlines)['compound']
 data_frame['compound'] = data_frame['Headlines'].apply(function)
 
+# Insert data into the database
+for _, row in data_frame.iterrows():
+    article = MyNews(
+        ticker=row['Ticker'],
+        date=row['Date'],
+        time=row['Time'],
+        headline=row['Headlines'],
+        sentiment=row['compound']
+    )
+    sesh.add(article)
+sesh.commit()
+
+
 # Grouping by date and ticker
-sentiment_trend = data_frame.groupby(['Date', 'Ticker'])['compound'].mean().unstack()
+# sentiment_trend = data_frame.groupby(['Date', 'Ticker'])['compound'].mean().unstack()
 
 #-----------------------------------------------------------
 # Visualization Of Sentiment Analysis

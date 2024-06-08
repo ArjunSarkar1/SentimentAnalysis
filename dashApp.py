@@ -4,7 +4,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
-from main import sentiment_trend
+from scrape import sentiment_trend
 
 # Initialize the Dash app
 app = dash.Dash(__name__)
