@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 
 finviz_url = "https://finviz.com/quote.ashx?t="
 ticker_symbols = ['IBM','ACN','ADBE','UBER']
+# ticker_symbols = ['GOOG','META','AMZN']
 
 news_tables = {} 
 
@@ -67,6 +68,10 @@ sentiment_trend = data_frame.groupby(['Date', 'Ticker'])['compound'].mean().unst
 
 print(sentiment_trend.head())
 
+#----------------#
+# Bar Chart
+#----------------#
+
 # Plot the sentiment trend using Pandas plot function
 sentiment_trend.plot(kind='bar', figsize=(11, 7))
 
@@ -77,7 +82,9 @@ plt.legend(title='Ticker')
 plt.grid(True)
 plt.show()
 
-#----------------
+#----------------#
+# Trend Line
+#----------------#
 
 # # Plotting
 # plt.figure(figsize=(11, 5))
